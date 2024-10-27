@@ -6,17 +6,17 @@ import {
   faShoppingCart,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import ProfileDropdown from './ProfileDropdown';
 
 const Header = () => {
-
-  const [cartCount, setCartCount] = useState(0);
-  const userId = 1; // Hardcode or fetch userId dynamically
+  const [cartCount,setCartCount] = useState(0);
+  const customerId = 1;
 
   // Function to fetch cart count from backend
-  async function fetchCartCount() {
+const fetchCartCount = async ()=>{
     const url = config.REACT_APP_API_URL;
     try {
-      const response = await fetch(url+`/cart/count?userId=${userId}`);
+      const response = await fetch(url+`/cart/count?userId=${customerId}`);
       const count = await response.json();
       setCartCount(count);
     } catch (error) {
@@ -24,10 +24,9 @@ const Header = () => {
     }
   }
 
-  useEffect(() => {
-    // Fetch cart count on component mount
+  useEffect(()=>{
     fetchCartCount();
-  }, []);
+  },[])
 
   return (
     <header style={styles.header}>
@@ -38,18 +37,12 @@ const Header = () => {
         <Link to="/" style={styles.navLink}>
           Home
         </Link>
-        <Link to="/about" style={styles.navLink}>
-          About
-        </Link>
-        <Link to="/wishlist" style={styles.navLink}>
-          Wish List
-        </Link>
         <div style={styles.loginContainer}>
-          <Link to="/login" style={styles.navLink}>
-            <FontAwesomeIcon icon={faUserCircle} style={styles.loginIcon} />
-            <span>Login</span>
-          </Link>
+          {/* <Link to="/login" style={styles.navLink}> */}
+          <ProfileDropdown />
+          {/* </Link> */}
         </div>
+
         <div style={styles.cartIconContainer}>
           <Link to="/cart" style={styles.navLink}>
             {" "}
