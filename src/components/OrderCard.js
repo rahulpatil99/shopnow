@@ -187,7 +187,7 @@ const OrderCard = ({
                   icon={faTrashAlt}
                   style={{ marginRight: "5px" }}
                 />
-                Remove{item.productId}
+                Remove
               </button>
             </div>
             <div style={styles.lightLineDiv}></div>

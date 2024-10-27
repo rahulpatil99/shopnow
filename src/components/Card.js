@@ -25,7 +25,6 @@ const Card = ({
   const navigate = useNavigate();
   const { setCartCount } = useOutletContext();
 
-  console.log(productId);
   useEffect(() => {
     PriceFinder();
 
@@ -226,7 +225,7 @@ const Card = ({
         e.stopPropagation();
             addToCart();
               setCartCount(prevCount => prevCount + 1); // Increment the cart count
-          }}>Add to Cart{productId}</button>
+          }}>Add to Cart</button>
     </div>
   );
 };
