@@ -1,11 +1,12 @@
 import config  from '../Config/config'
 import React,{useState,useEffect} from 'react'
+import { useOutletContext } from 'react-router-dom'
 import Card from '../components/Card'
 
 
 const Home =() => {
   const [products,setProducts] = useState(null);
-
+  const { setCartCount } = useOutletContext();
 
   const getData = async ()=> {
     const url = config.REACT_APP_API_URL+"/product/getAll/1";
@@ -32,6 +33,11 @@ const Home =() => {
       console.error("Error fetching data: ", error.message);
     }
   }
+
+  const onDeleted = () =>{
+
+  }
+
   useEffect(()=>{
     getData();
   },[]);
@@ -49,6 +55,7 @@ const Home =() => {
         price={product.price}
         isProductLike={product.isProductLike}
         discount={product.discount}
+        onRemove={onDeleted}
         />
 
       ))}

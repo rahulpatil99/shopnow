@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { useOutletContext } from 'react-router-dom'
+
 
 const OrderCard = ({
   items,
@@ -20,6 +22,7 @@ const OrderCard = ({
   const [savedAmount, setSavedAmount] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const navigate = useNavigate();
+  const {setCartCount} = useOutletContext()
 
   const updateQuantity= async(productId,quantity)=>{
     const url = config.REACT_APP_API_URL+"/cart/update/quantity";
@@ -54,13 +57,15 @@ const OrderCard = ({
     const products = [...productItems];
     const quantity = Number(value);
     if (quantity > 0 && quantity < 11) {
+      setCartCount(prev=> prev + (quantity - products[index].quantity))
       products[index].quantity = quantity;
       updateQuantity( products[index].productId,quantity);
       setProductItems(products);
     }
   };
-
+  
   const handleRemove = (productId) => {
+    setCartCount(prev => prev - productItems.filter((i)=> i.productId == productId)[0].quantity);
     onRemove(productId); // Notify parent component if needed
     const newItems = productItems.filter((item) => item.productId !== productId);
     setProductItems(newItems);

@@ -8,25 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ProfileDropdown from './ProfileDropdown';
 
-const Header = () => {
-  const [cartCount,setCartCount] = useState(0);
-  const customerId = 1;
-
-  // Function to fetch cart count from backend
-const fetchCartCount = async ()=>{
-    const url = config.REACT_APP_API_URL;
-    try {
-      const response = await fetch(url+`/cart/count?userId=${customerId}`);
-      const count = await response.json();
-      setCartCount(count);
-    } catch (error) {
-      console.error('Error fetching cart count:', error);
-    }
-  }
-
-  useEffect(()=>{
-    fetchCartCount();
-  },[])
+const Header = ({cartCount}) => {
 
   return (
     <header style={styles.header}>
