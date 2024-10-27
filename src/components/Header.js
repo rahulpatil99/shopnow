@@ -44,6 +44,9 @@ const Header = () => {
         <Link to="/about" style={styles.navLink}>
           About
         </Link>
+        <Link to="/wishlist" style={styles.navLink}>
+          Wish List
+        </Link>
         <div style={styles.loginContainer}>
           <Link to="/login" style={styles.navLink}>
             <FontAwesomeIcon icon={faUserCircle} style={styles.loginIcon} />

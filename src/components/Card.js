@@ -13,6 +13,7 @@ const Card = ({
   price,
   isProductLike,
   discount,
+  onRemove,
 }) => {
   const [productId,setProductId] = useState(productsId);
   const [userId,setUserId] = useState(1);
@@ -21,6 +22,7 @@ const Card = ({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const navigate = useNavigate();
 
+  console.log(productId);
   useEffect(() => {
     PriceFinder();
 
@@ -49,6 +51,8 @@ const Card = ({
 
   const likeToggle = () => {
     updateLike();
+    if(productLike) 
+      onRemove(productId);
     setProductLike(!productLike);
   };
 

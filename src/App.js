@@ -9,6 +9,7 @@ import ProceedPage from "./pages/ProceedPage";
 import UserList from "./pages/UserList";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
+import WishList from "./pages/WishList";
 //import './App.css';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<WishList />} />
           <Route
             path="/login"
             element={<Login isOpen={loginOpen} onClose={loginClose} />}
