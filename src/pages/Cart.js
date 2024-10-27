@@ -25,10 +25,6 @@ const getCardDetails = async () =>{
 
     const json = await response.json();
     setOrders(json);
-     json.map((i)=>{
-
-      console.log(i);
-    })
   }catch(error){
     console.error("Error fetching data: ", error.message);
   }
@@ -63,13 +59,9 @@ const deleteProduct = async (productId) =>{
 }
 
 
-//getCardDetails();
-
 useEffect(()=>{
   getCardDetails()
 },[]);
-
-
 
   const handleRemove = (productId) => {
 
@@ -88,7 +80,6 @@ useEffect(()=>{
         freeDeliveryLimit={freeDeliveryLimit}
         onRemove={handleRemove}
       />
-      {/* <PriceDetails/> */}
     </div>
   );
 }

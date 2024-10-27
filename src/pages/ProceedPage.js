@@ -26,7 +26,6 @@ const ProceedPage = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Order placed with data: ", formData);
     updateDeliveryAddress();
     // handlePayment();
   };

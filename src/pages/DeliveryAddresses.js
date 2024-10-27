@@ -71,8 +71,6 @@ const DeliveryAddresses = () => {
   const handleEditAddress = (addressId) => {
     const deliveryaddress = [...allAddress].filter((i)=> i.deliveryAddressId == addressId)
     navigate('/ProceedPage', { state: { deliveryaddress } })
-    console.log('Editing address with ID:', addressId);
-    // Add code here to open the edit form or modal for the selected address
   };
 
   const handleDeleteAddress = (addressId) => {
@@ -80,19 +78,18 @@ const DeliveryAddresses = () => {
     const address = [...allAddress].filter((i)=>i.deliveryAddressId != addressId);
     setAllAddress(address);
     deletedDeliveryAddress(addressId);
-    // Add code here to delete the address
   };
 
 
   const handleAddNewAddress = (addressId) => {
     console.log('Deleting address with ID:', addressId);
     navigate('/ProceedPage');
-    // Add code here to delete the address
   };
 
 
 
   if(!allAddress) return(<div>loading...</div>);
+  
   return (
     <div style={styles.container}>
       <h3 style={styles.heading}>Select Delivery Address</h3>

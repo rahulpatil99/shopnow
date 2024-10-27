@@ -1,12 +1,10 @@
 import config  from '../Config/config'
 import React,{useState,useEffect} from 'react'
-import { useOutletContext } from 'react-router-dom'
 import Card from '../components/Card'
 
 
 const Home =() => {
   const [products,setProducts] = useState(null);
-  const { setCartCount } = useOutletContext();
 
   const getData = async ()=> {
     const url = config.REACT_APP_API_URL+"/product/getAll/1";
@@ -25,10 +23,6 @@ const Home =() => {
   
       const json = await response.json();
       setProducts(json);
-      json.map((i)=>{
-
-        console.log(i.price);
-      })
     } catch (error) {
       console.error("Error fetching data: ", error.message);
     }
@@ -43,6 +37,7 @@ const Home =() => {
   },[]);
   
   if(!products) return (<div>loading..</div>)
+    
    return (
     <div style={styles.container}>
       {products.map((product)=>(
@@ -68,7 +63,6 @@ const styles ={
         display: 'flex',
         flexWrap: 'wrap',
         gap: '16px', // Set a specific gap between items
-        //justifyContent: 'space-between',
         padding: '16px',
     }
 }

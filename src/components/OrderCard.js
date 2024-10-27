@@ -46,7 +46,6 @@ const OrderCard = ({
       }
   
       const json = await response.json();
-      console.log('Product added to cart:', json);
     } catch (error) {
       console.error('Error adding product to cart:', error.message);
     }
@@ -309,7 +308,6 @@ const styles = {
   },
   priceDetailsContainer: {
     backgroundColor: "red",
-    //width: "",
     backgroundColor: "#fff",
     border: "1px solid #ddd",
     borderRadius: "8px",

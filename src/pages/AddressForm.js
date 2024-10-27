@@ -20,7 +20,6 @@ const AddressForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
   };
 
   return (

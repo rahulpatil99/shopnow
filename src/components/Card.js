@@ -82,7 +82,6 @@ const Card = ({
       
       const json = await response.json();
       setCartCount(prevCount => prevCount + 1); // Increment the cart count
-      console.log('Product added to cart:', json);
     } catch (error) {
       console.error('Error adding product to cart:', error.message);
     }
@@ -109,7 +108,6 @@ const Card = ({
       }
       
       const json = await response.json();
-      console.log('Product like updated:', json);
     } catch (error) {
       console.error('Error adding product to cart:', error.message);
     }
@@ -120,7 +118,6 @@ const Card = ({
     container: {
       height: "auto",
       width: "200px", // Default width for larger screens
-      // maxWidth: "14rem",
       backgroundColor: "#fff",
       border: "1px solid #ddd",
       borderRadius: "8px",

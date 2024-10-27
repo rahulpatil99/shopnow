@@ -36,7 +36,6 @@ const ProfileDropdown = () => {
     };
   }, []);
 
-  // CSS styles as a JavaScript object
   const styles = {
     dropdown: {
       color:'black',

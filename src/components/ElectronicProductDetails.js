@@ -70,7 +70,6 @@ const ElectronicProductDetails = ({ product }) => {
 
 const styles = {
   container: {
-    //flex: "1 1 300px", // Allows responsive resizing
     padding: "20px",
     border: "1px solid #f0f0f0",
     borderRadius: "8px",

@@ -34,6 +34,7 @@ const WishList = () =>{
     const newProductList = products.filter((item)=>item.productId != productId)
     setProduct(newProductList)
   }
+
   useEffect(()=>{
     getWishListData();
     },[])
@@ -81,19 +82,15 @@ container:{
   margin: "10px",
 },
 heading:{
-    // textAlign: 'center',
-    color: '#333',
-    fontSize: '24px',
-    marginBottom: '20px',
+  color: '#333',
+  fontSize: '24px',
+  marginBottom: '20px',
 },
 cardContainer:{
   display: 'flex',
   flexWrap: 'wrap',
   gap: '16px', // Set a specific gap between items
-  //justifyContent: 'space-between',
-  padding: '16px',
-  //width: "95%",
- 
+  padding: '16px', 
 }
 }
 

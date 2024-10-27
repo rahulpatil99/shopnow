@@ -7,8 +7,7 @@ const PublicLayout = () => {
   const [cartCount,setCartCount] = useState(0);
   const customerId = 1;
 
-  // Function to fetch cart count from backend
-const fetchCartCount = async ()=>{
+  const fetchCartCount = async ()=>{
     const url = config.REACT_APP_API_URL;
     try {
       const response = await fetch(url+`/cart/count?userId=${customerId}`);
@@ -23,7 +22,6 @@ const fetchCartCount = async ()=>{
     fetchCartCount();
   },[])
 
-  //if(!cartCount) return(<div>loading...</div>)
 
   return (
     <div>
