@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import config from "../Config/config";
 
 const ProceedPage = () => {
+  const location = useLocation();
+  const [deliveryAddressId,setDeliveryAddressId] = useState(null);
+  const [customerId,setCustomerId]  = useState(1);
   const [formData, setFormData] = useState({
     fullName: "",
-    phoneNumber: "",
+    mobileNumber: "",
     pinCode: "",
     state: "",
     city: "",
@@ -22,7 +27,8 @@ const ProceedPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Order placed with data: ", formData);
-    handlePayment();
+    updateDeliveryAddress();
+    // handlePayment();
   };
 
   // Razorpay payment integration
@@ -50,6 +56,38 @@ const ProceedPage = () => {
     rzp.open();
   };
 
+  const updateDeliveryAddress = async () =>{
+    const url = config.REACT_APP_API_URL+"/deliveryaddress/update";
+
+    const payload = {
+      customerId,
+      deliveryAddressId,
+      ...formData
+    }
+
+    try{
+    const response = await fetch(url,{
+      method:'PUT',
+      headers:{
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to update delivery address. Status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    
+  } catch (error) {
+    console.error('Error delivery address not updated:', error.message);
+  }
+
+
+
+  }
+
   // Handle window resize event for mobile responsiveness
   useEffect(() => {
     const handleResize = () => {
@@ -57,9 +95,12 @@ const ProceedPage = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
+    
+    if (location.state && location.state.deliveryaddress) {
+      setFormData(location.state.deliveryaddress[0]);
+    }
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [location.state]);
 
   return (
     <div style={isMobile ? styles.containerMobile : styles.container}>
@@ -76,9 +117,9 @@ const ProceedPage = () => {
         />
         <input
           type="text"
-          name="phoneNumber"
-          placeholder="Phone Number"
-          value={formData.phoneNumber}
+          name="mobileNumber"
+          placeholder="Mobile Number"
+          value={formData.mobileNumber}
           onChange={handleChange}
           required
           style={styles.input}
@@ -128,9 +169,9 @@ const ProceedPage = () => {
           style={styles.select}
         >
           <option value="">Select Address Type</option>
-          <option value="home">Home</option>
-          <option value="work">Work</option>
-          <option value="hotel">Hotel</option>
+          <option value="Home">Home</option>
+          <option value="Work">Work</option>
+          <option value="Hotel">Hotel</option>
         </select>
         <button type="submit" style={styles.button}>
           Save Address & Proceed to Payment

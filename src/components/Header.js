@@ -38,9 +38,6 @@ const Header = () => {
         <Link to="/" style={styles.navLink}>
           Home
         </Link>
-        <Link to="/cart" style={styles.navLink}>
-          Cart
-        </Link>
         <Link to="/about" style={styles.navLink}>
           About
         </Link>

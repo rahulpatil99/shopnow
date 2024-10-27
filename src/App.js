@@ -6,6 +6,7 @@ import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import ProceedPage from "./pages/ProceedPage";
+import DeliveryAddresses from "./pages/DeliveryAddresses";
 import UserList from "./pages/UserList";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
@@ -25,6 +26,8 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<WishList />} />
+          <Route path="/DeliveryAddresses" element={<DeliveryAddresses />} />
+
           <Route
             path="/login"
             element={<Login isOpen={loginOpen} onClose={loginClose} />}

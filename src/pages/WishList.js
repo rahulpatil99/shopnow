@@ -42,9 +42,10 @@ const WishList = () =>{
 
   return (
     <div style={styles.container}>
-      <div style={styles.header}>
+      <h3 style={styles.heading}>
         Your WishList
-      </div>
+
+      </h3>
       <div style={styles.cardContainer}>
 
     {product.map((product)=>(
@@ -79,15 +80,17 @@ container:{
   padding: "30px",
   margin: "10px",
 },
-header:{
-
+heading:{
+    // textAlign: 'center',
+    color: '#333',
+    fontSize: '24px',
+    marginBottom: '20px',
 },
 cardContainer:{
   display: 'flex',
   flexWrap: 'wrap',
   gap: '16px', // Set a specific gap between items
   //justifyContent: 'space-between',
-
   padding: '16px',
   //width: "95%",
  

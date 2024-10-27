@@ -107,7 +107,7 @@ const OrderCard = ({
   };
 
   const proceedToBuy = () => {
-    navigate("/ProceedPage");
+    navigate("/DeliveryAddresses");
   };
 
   useEffect(() => {
