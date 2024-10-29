@@ -1,9 +1,8 @@
-// src/pages/Login.js
+// src/pages/SignUp.js
 
-import React, { useState,useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate,useLocation } from "react-router-dom";
-import config from "../Config/config";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -63,9 +62,6 @@ const styles = {
     cursor: "pointer",
     transition: "background 0.3s ease",
   },
-  buttonHover: {
-    backgroundColor: "#3b40a2",
-  },
   linkText: {
     marginTop: "1rem",
     color: "#4e54c8",
@@ -73,57 +69,26 @@ const styles = {
   },
 };
 
-const Login = () => {
+const SignUp = () => {
   const { register, handleSubmit } = useForm();
-  const [token,setToken] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
-  const getToken = async (data) =>{
-      const url = config.REACT_APP_API_URL+'/authentication/token';
-      try{
-      const response = await fetch(url,{
-        method:'POST',
-        headers: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      if (!response.ok) {
-        alert("Invalid credentials.");
-        throw new Error(`Failed to c. Status: ${response.status}`);
-      }
-  
-      const json = await response.json();
-      setToken(json.token);
-      localStorage.setItem("jwtToken", json.token);
-
-    } catch (error) {
-      console.error('Error authorization:', error.message);
-    }
-  }
-
-  useEffect(()=>{
-    if(token){
-      alert("Login successful!");
-      navigate(from);
-    }
-  },[token,navigate])
   const onSubmit = (data) => {
-    getToken(data);
+    localStorage.setItem("user", JSON.stringify(data));
+    alert("Sign up successful!");
+    navigate("/login");
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.heading}>Login</h2>
+        <h2 style={styles.heading}>Sign Up</h2>
         <form onSubmit={handleSubmit(onSubmit)} style={styles.form}>
           <div style={styles.inputContainer}>
             <label style={styles.label}>Email:</label>
             <input
               type="email"
-              {...register("username", { required: true })}
+              {...register("email", { required: true })}
               style={styles.input}
             />
           </div>
@@ -131,26 +96,24 @@ const Login = () => {
             <label style={styles.label}>Password:</label>
             <input
               type="password"
-              {...register("password", { required: true })}
+              {...register("password", { required: true, minLength: 6 })}
               style={styles.input}
             />
           </div>
           <button
             type="submit"
-            style={{ ...styles.button }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
+            style={styles.button}
           >
-            Login
+            Sign Up
           </button>
         </form>
         <p style={styles.linkText}>
-          Don't have an account?{" "}
-          <a href="/signup" style={styles.linkText}>Sign Up</a>
+          Already have an account?{" "}
+          <a href="/login" style={styles.linkText}>Log In</a>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

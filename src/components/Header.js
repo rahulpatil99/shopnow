@@ -20,11 +20,8 @@ const Header = ({cartCount}) => {
           Home
         </Link>
         <div style={styles.loginContainer}>
-          {/* <Link to="/login" style={styles.navLink}> */}
           <ProfileDropdown />
-          {/* </Link> */}
         </div>
-
         <div style={styles.cartIconContainer}>
           <Link to="/cart" style={styles.navLink}>
             {" "}
