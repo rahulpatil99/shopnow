@@ -69,7 +69,7 @@ const styles = {
   },
 };
 
-const SignUp = () => {
+const Signup = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
@@ -116,4 +116,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Signup;
