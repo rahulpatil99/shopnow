@@ -1,23 +1,30 @@
 // ProfileDropdown.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from '../contexts/AuthProvider';
 
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const {isAuthenticated,logout} = useContext(AuthContext);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleOptionClick = (option) => {
+    if(option=='logout'){
+      logout();
+    }
+    else{
     navigate("/"+option)
+    }
     setIsOpen(false); // Close dropdown after selection
   };
 
@@ -61,7 +68,7 @@ const ProfileDropdown = () => {
       border: '1px solid #ccc',
       borderRadius: '5px',
       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
-      zIndex: 1, // Ensure it's above other elements
+      zIndex: 10, // Ensure it's above other elements
       width: '150px',
     },
     option: {
@@ -110,14 +117,26 @@ const ProfileDropdown = () => {
           >
             Orders
           </div>
-          <div 
+          {
+            isAuthenticated
+            ?
+            <div 
             onClick={() => handleOptionClick('logout')} 
             style={styles.option}
             onMouseOver={(e) => e.currentTarget.style.backgroundColor = styles.optionHover.backgroundColor}
             onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
           >
             Logout
-          </div>
+          </div>:
+          <div 
+          onClick={() => handleOptionClick('Login')} 
+          style={styles.option}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = styles.optionHover.backgroundColor}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
+        >
+          Login
+        </div>
+        }
         </div>
       )}
     </div>

@@ -1,13 +1,40 @@
 import config  from '../Config/config'
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useContext} from 'react'
 import Card from '../components/Card'
+import { AuthContext } from "../contexts/AuthProvider";
+
 
 
 const Home =() => {
   const [products,setProducts] = useState(null);
-
-  const getData = async ()=> {
+  const {token } = useContext(AuthContext);
+  
+  const getAllDataWithUserData = async ()=> {
+    const token = localStorage.getItem('jwtToken');
     const url = config.REACT_APP_API_URL+"/product/getAll/1";
+  
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization' : 'Bearer '+token
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+  
+      const json = await response.json();
+      setProducts(json);
+    } catch (error) {
+      console.error("Error fetching data: ", error.message);
+    }
+  }
+
+  const getAllData = async ()=> {
+    const url = config.REACT_APP_API_URL+"/product/getAll";
   
     try {
       const response = await fetch(url, {
@@ -33,8 +60,16 @@ const Home =() => {
   }
 
   useEffect(()=>{
-    getData();
-  },[]);
+    
+    // setToken(localStorage.getItem('jwtToken'));
+    if(token){
+      getAllDataWithUserData()
+    }
+    else{
+      getAllData();
+    }
+    // }
+  },[token]);
   
   if(!products) return (<div>loading..</div>)
     

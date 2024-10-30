@@ -13,6 +13,8 @@ import WishList from "./pages/WishList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
+import {AuthProvider} from "./contexts/AuthProvider";
+import {CartProvider} from "./contexts/CartProvider";
 
 //import './App.css';
 
@@ -22,6 +24,9 @@ const App = () => {
   const loginOpen = () => setIsLogin(true);
   const loginClose = () => setIsLogin(false);
   return (
+    <AuthProvider>
+    <CartProvider>
+
     <Router>
       <Routes>
         {/* Public layout */}
@@ -49,6 +54,8 @@ const App = () => {
         </Route>
       </Routes>
     </Router>
+    </CartProvider>
+    </AuthProvider>
     // <UserList/>
   );
 };

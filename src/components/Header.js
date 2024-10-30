@@ -1,5 +1,5 @@
 import config from '../Config/config'
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect, useContext} from "react";
 import { Link } from "react-router-dom"; // If you're using React Router for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,8 +7,11 @@ import {
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import ProfileDropdown from './ProfileDropdown';
+import { CartContext } from "../contexts/CartProvider";
 
-const Header = ({cartCount}) => {
+
+const Header = () => {
+  const {cartCount} = useContext(CartContext);
 
   return (
     <header style={styles.header}>

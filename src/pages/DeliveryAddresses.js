@@ -1,6 +1,7 @@
 import config from '../Config/config';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../contexts/AuthProvider';
 
 const DeliveryAddresses = () => {
   
@@ -8,6 +9,7 @@ const DeliveryAddresses = () => {
   const [allAddress,setAllAddress] = useState(null);
   const [customerId,setCustomerId] = useState(1);
   const navigate = useNavigate();
+  const {isAuthenticated,token} = useContext(AuthContext);
 
 
   const getAllDeliveryAddress = async () =>{
@@ -16,7 +18,9 @@ const DeliveryAddresses = () => {
     try{
     const response = await fetch(url,{
       method:'GET',
-      headers:{"content-type":"application/json"}
+      headers:{"content-type":"application/json",
+        'Authorization' : 'Bearer '+token
+      }
     })
     if (!response.ok) {
       throw new Error(`Failed to get delivery address. Status: ${response.status}`);

@@ -7,6 +7,7 @@ const Cart = () => {
   const [deliveryCharges, setDeliveryCharges] = useState(70);
   const [packagingCharges, setPackagingCharges] = useState(50);
   const [freeDeliveryLimit, setFreeDeliveryLimit] = useState(499);
+  const [token,setToken] = useState(null);
   const [orders, setOrders] = useState(null);
 
 const getCardDetails = async () =>{
@@ -17,6 +18,7 @@ const getCardDetails = async () =>{
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization' : 'Bearer '+token
       }
     });
     if (!response.ok) {
@@ -44,6 +46,7 @@ const deleteProduct = async (productId) =>{
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization' : 'Bearer '+token
       },
       body: JSON.stringify(payload)
     });
@@ -60,8 +63,11 @@ const deleteProduct = async (productId) =>{
 
 
 useEffect(()=>{
-  getCardDetails()
-},[]);
+  setToken(localStorage.getItem('jwtToken'));
+  if(token){
+    getCardDetails()
+  }
+},[token]);
 
   const handleRemove = (productId) => {
 

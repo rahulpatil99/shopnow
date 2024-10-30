@@ -9,8 +9,16 @@ const PublicLayout = () => {
 
   const fetchCartCount = async ()=>{
     const url = config.REACT_APP_API_URL;
+    const token = localStorage.getItem('jwtToken');
+
     try {
-      const response = await fetch(url+`/cart/count?userId=${customerId}`);
+      const response = await fetch(url+`/cart/count?userId=${customerId}`,{
+        method:'GET',
+        headers:{
+        'Content-Type':'application/json',
+        'Authorization' : 'Bearer '+token
+        }
+      });
       const count = await response.json();
       setCartCount(count);
     } catch (error) {
@@ -19,15 +27,16 @@ const PublicLayout = () => {
   }
 
   useEffect(()=>{
-    fetchCartCount();
+      //fetchCartCount();
   },[])
 
 
   return (
     <div>
-      <Header cartCount ={cartCount}/>
+      <Header/>
+       {/* cartCount ={cartCount}/> */}
       <main>
-        <Outlet  context ={{setCartCount}} /> {/* This will render the current route's component */}
+        <Outlet/> {/* This will render the current route's component */}
       </main>
     </div>
   );

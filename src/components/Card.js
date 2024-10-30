@@ -1,10 +1,12 @@
 import config from '../Config/config'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { useOutletContext } from 'react-router-dom'
+// import { useOutletContext } from 'react-router-dom'
+import { CartContext } from "../contexts/CartProvider";
+
 
 
 const Card = ({
@@ -23,9 +25,11 @@ const Card = ({
   const [discountedPrice, setDiscountedPrice] = useState(price);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const navigate = useNavigate();
-  const { setCartCount } = useOutletContext();
+  const { setCartCount } = useContext(CartContext);
+  const [token,setToken] = useState(null);
 
   useEffect(() => {
+    setToken(localStorage.getItem('jwtToken'));
     PriceFinder();
 
     // Update mobile state on window resize
@@ -37,7 +41,7 @@ const Card = ({
 
     // Cleanup event listener
     return () => window.removeEventListener("resize", handleResize);
-  }, [price, discount]);
+  }, [price, discount,token]);
 
   const handleNavigate = () => {
     navigate("./productDetails");
@@ -72,15 +76,21 @@ const Card = ({
         method:'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer '+token
         },
         body: JSON.stringify(cartPayload)
       });
       if (!response.ok) {
         throw new Error(`Failed to add product to cart. Status: ${response.status}`);
       }
-      
-      const json = await response.json();
-      setCartCount(prevCount => prevCount + 1); // Increment the cart count
+      if(response.ok){
+        setCartCount(prevCount => prevCount + 1); // Increment the cart count
+      }
+      // const json = await response.json();
+      console.log(response.ok);
+      // console.log('ada');
+
+     // if(json)  
     } catch (error) {
       console.error('Error adding product to cart:', error.message);
     }
@@ -99,6 +109,7 @@ const Card = ({
         method:'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer '+token
         },
         body: JSON.stringify(cartPayload)
       });
@@ -224,7 +235,7 @@ const Card = ({
       <button style={styles.button} onClick={(e) => {
         e.stopPropagation();
             addToCart();
-              setCartCount(prevCount => prevCount + 1); // Increment the cart count
+              //setCartCount(prevCount => prevCount + 1); // Increment the cart count
           }}>Add to Cart</button>
     </div>
   );

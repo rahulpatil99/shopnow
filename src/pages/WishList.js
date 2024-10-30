@@ -1,20 +1,30 @@
 import config from '../Config/config'
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useContext} from 'react';
 import Card from '../components/Card';
+import { CartContext } from "../contexts/CartProvider";
+import { AuthContext } from '../contexts/AuthProvider';
+import { useNavigate } from "react-router-dom";
+
 
 const WishList = () =>{
 
   const [product,setProduct] = useState(null);
   const [customerId,setCustomerId] = useState(1);
+//  const [token,setToken] = useState(null);
+  const { isAuthenticated} = useContext(AuthContext)
+  const { SetCartCount } = useContext(CartContext);
+  const navigate = useNavigate();
+
 
   const getWishListData = async () =>{
     const url = config.REACT_APP_API_URL+"/wishlist/"+customerId;
-    
+    const token =    localStorage.getItem('jwtToken');
     try{
     const response = await fetch(url,{
       method:'GET',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+       'Authorization' : 'Bearer '+token
       }
     })
 
@@ -36,8 +46,11 @@ const WishList = () =>{
   }
 
   useEffect(()=>{
-    getWishListData();
-    },[])
+    if(!isAuthenticated){
+      navigate('/login')
+    }
+      getWishListData();
+    },[isAuthenticated])
 
     if(!product) return (<div>loading..</div>)
 

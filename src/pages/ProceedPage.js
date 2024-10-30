@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import config from "../Config/config";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const ProceedPage = () => {
   const location = useLocation();
   const [deliveryAddressId,setDeliveryAddressId] = useState(null);
   const [customerId,setCustomerId]  = useState(1);
+  const {isAuthenticated,token} = useContext(AuthContext)
   const [formData, setFormData] = useState({
     fullName: "",
     mobileNumber: "",
@@ -68,7 +70,9 @@ const ProceedPage = () => {
     const response = await fetch(url,{
       method:'PUT',
       headers:{
-        'Content-Type' : 'application/json'
+        'Content-Type' : 'application/json',
+        'Authorization' : 'Bearer '+token
+
       },
       body: JSON.stringify(payload)
     })

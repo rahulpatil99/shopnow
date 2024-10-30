@@ -1,9 +1,10 @@
 // src/pages/Login.js
 
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate,useLocation } from "react-router-dom";
 import config from "../Config/config";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const styles = {
   container: {
@@ -75,7 +76,9 @@ const styles = {
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const [token,setToken] = useState(null);
+  //const [token,setToken] = useState(null);
+  const { login,token } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -96,8 +99,8 @@ const Login = () => {
       }
   
       const json = await response.json();
-      setToken(json.token);
-      localStorage.setItem("jwtToken", json.token);
+      login(json.token);
+      navigate(from);
 
     } catch (error) {
       console.error('Error authorization:', error.message);

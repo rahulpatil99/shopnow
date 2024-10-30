@@ -1,11 +1,11 @@
 import config from '../Config/config';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { useOutletContext } from 'react-router-dom'
-
+import { CartContext } from '../contexts/CartProvider';
+import {AuthContext} from '../contexts/AuthProvider';
 
 const OrderCard = ({
   items,
@@ -22,7 +22,9 @@ const OrderCard = ({
   const [savedAmount, setSavedAmount] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const navigate = useNavigate();
-  const {setCartCount} = useOutletContext()
+  const {setCartCount} = useContext(CartContext);
+  const [token,setToken] = useState(null);
+  const { isAuthenticated} = useContext(AuthContext)
 
   const updateQuantity= async(productId,quantity)=>{
     const url = config.REACT_APP_API_URL+"/cart/update/quantity";
@@ -38,6 +40,7 @@ const OrderCard = ({
         method:'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization' : 'Bearer '+token
         },
         body: JSON.stringify(cartPayload)
       });
@@ -56,7 +59,7 @@ const OrderCard = ({
     const products = [...productItems];
     const quantity = Number(value);
     if (quantity > 0 && quantity < 11) {
-      setCartCount(prev=> prev + (quantity - products[index].quantity))
+      //setCartCount(prev=> prev + (quantity - products[index].quantity))
       products[index].quantity = quantity;
       updateQuantity( products[index].productId,quantity);
       setProductItems(products);
@@ -115,6 +118,10 @@ const OrderCard = ({
   };
 
   useEffect(() => {
+    if(!isAuthenticated){
+      navigate('/login')
+    }
+    setToken(localStorage.getItem('jwtToken'));
     if (items.length === 0) {
       // Don't calculate prices if there are no items
       return;
@@ -132,7 +139,7 @@ const OrderCard = ({
 
     // Cleanup event listener
     return () => window.removeEventListener("resize", handleResize);
-  }, [productItems]);
+  }, [productItems,token,isAuthenticated]);
 
   return (
     <div style={styles.container}>
